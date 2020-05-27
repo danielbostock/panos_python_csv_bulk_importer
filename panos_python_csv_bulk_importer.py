@@ -16,7 +16,8 @@ requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 ## Refer to my website and GIT repo for further documentation
 ## and any further discussion on its respective purpose
 
-## GitHub Repo: 
+## GitHub Repo: https://github.com/danielbostock/panos_python_csv_bulk_importer
+## Blog site: https://www.danielbostock.com
 
 
 
