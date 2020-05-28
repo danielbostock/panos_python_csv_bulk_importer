@@ -38,7 +38,7 @@ Beginning the import...
         ''')
 
 ## Define CSV File Importing
-csvfile = '/media/daniel/data/nextcloud/GIT/neverland-infrastructure/python/dev-panos/nvfw1_tagobj.csv'
+csvfile = 'csv_sample/panos_tagobj.csv'
 
 ## Open CSV
 tags = csv.DictReader(open(csvfile))
@@ -61,7 +61,7 @@ Beginning the import...
         ''')
 
 ## Define CSV File Importing
-csvfile = '/media/daniel/data/nextcloud/GIT/neverland-infrastructure/python/dev-panos/nvfw1_addrobj3.csv'
+csvfile = 'csv_sample/panos_addrobj.csv'
 
 ## Open CSV
 addr = csv.DictReader(open(csvfile))
@@ -83,7 +83,7 @@ Beginning the import...
         ''')
 
 ## Define CSV File Importing
-csvfile = '/media/daniel/data/nextcloud/GIT/neverland-infrastructure/python/dev-panos/nvfw1_addrobjgrp.csv'
+csvfile = 'csv_sample/panos_addrgrpobj.csv'
 
 ## Open CSV
 addrgrp = csv.DictReader(open(csvfile))
@@ -103,7 +103,7 @@ Beginning the 2nd round import...
         ''')
 
 ## Define CSV File Importing
-csvfile = '/media/daniel/data/nextcloud/GIT/neverland-infrastructure/python/dev-panos/nvfw1_addrobjgrp.csv'
+csvfile = 'csv_sample/panos_addrgrpobj.csv'
 
 ## Open CSV
 addrgrp = csv.DictReader(open(csvfile))
@@ -123,7 +123,7 @@ Beginning the import...
         ''')
 
 ## Define CSV File Importing
-csvfile = '/media/daniel/data/nextcloud/GIT/neverland-infrastructure/python/dev-panos/nvfw1_svcobj.csv'
+csvfile = 'csv_sample/panos_svcobj.csv'
 
 ## Open CSV
 svc = csv.DictReader(open(csvfile))
@@ -143,7 +143,7 @@ Beginning the import...
         ''')
 
 ## Define CSV File Importing
-csvfile = '/media/daniel/data/nextcloud/GIT/neverland-infrastructure/python/dev-panos/nvfw1_svcgrpobj.csv'
+csvfile = 'csv_sample/panos_svcgrpobj.csv'
 
 ## Open CSV
 svcgrp = csv.DictReader(open(csvfile))
