@@ -1,0 +1,5 @@
+Name,Protocol,Destination Port,Tags,Description
+svcobj1,TCP,8443,tagobj1,service object 1
+svcobj2,TCP,8000-8100,tagobj2,service object 2
+svcobj3,UDP,4000,tagobj3,service object 3
+svcobj4,UDP,4000-4200,tagobj4,service object 4

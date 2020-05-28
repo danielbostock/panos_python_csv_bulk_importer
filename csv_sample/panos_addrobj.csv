@@ -1,0 +1,21 @@
+Name,Address,Tags,Description
+addrobj1,10.0.13.50,tagobj10;tagobj23,Address Object 1
+addrobj2,10.0.13.51,tagobj11;tagobj20,Address Object 2
+addrobj3,10.0.13.52,tagobj12;tagobj20;tagobj14;tagobj10,Address Object 3
+addrobj4,10.0.13.53,tagobj13,Address Object 4
+addrobj5,10.0.13.54,tagobj14,Address Object 5
+addrobj6,10.0.13.55,tagobj15,Address Object 6
+addrobj7,10.0.13.56,tagobj16,Address Object 7
+addrobj8,10.0.13.57,tagobj17,Address Object 8
+addrobj9,10.0.13.58,tagobj18,Address Object 9
+addrobj10,10.0.13.59,tagobj19,Address Object 10
+addrobj11,10.0.0.0/16,tagobj20,Address Object 11
+addrobj12,10.0.1.0/16,tagobj21,Address Object 12
+addrobj13,10.0.2.0/16,tagobj22,Address Object 13
+addrobj14,192.168.0.0/16,tagobj23,Address Object 14
+addrobj15,11.100.100.100,tagobj24,Address Object 15
+addrobj16,12.100.100.100,tagobj25,Address Object 16
+addrobj17,172.16.0.0/12,tagobj26,Address Object 17
+addrobj18,172.16.0.0/23,tagobj27,Address Object 18
+addrobj19,10.0.2.0/24,tagobj28,Address Object 19
+addrobj20,10.0.1.0/24,tagobj29,Address Object 20
