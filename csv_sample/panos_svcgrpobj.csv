@@ -1,5 +1,5 @@
 Name,Services,Tags
 svcgrpobj1,svcobj1;svcobj2;svcobj3,tagobj7
 svcgrpobj2,svcobj4;svcobj5,tagobj8
-svcgrpobj3,svcobj1;svcobj2;svcobj3;svcobj4;svcobj5;svcobj6;svcobjgrp4,tagobj9
-svcgrpobj4,svcobjgrp1;svcobjgrp2,tagobj10
+svcgrpobj3,svcobj1;svcobj2;svcobj3;svcobj4;svcobj5;svcobj6;svcgrpobj4,tagobj9
+svcgrpobj4,svcgrpobj1;svcgrpobj2,tagobj10

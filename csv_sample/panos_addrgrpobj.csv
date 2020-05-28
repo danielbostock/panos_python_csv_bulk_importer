@@ -1,5 +1,7 @@
 Name,Type,Addresses,Tags,Description
 addrgrp_obj1,dynamic,tagobj3,,Address Group 1
-addrgrp_obj2,static,addrobj1;addrobj2;addrobj3;addrobj4,,Address Group 2
+addrgrp_obj2,static,addrobj1;addrgrp_obj4,,Address Group 2
 addrgrp_obj3,dynamic,tagobj2,tagobj4,Address Group 3
-addrgrp_obj4,static,addrobj1;addrobj6,tagobj5,Address Group 4
+addrgrp_obj4,static,addrobj1,tagobj5,Address Group 4
+addrgrp_obj5,static,addrobj10;addrobj5;addrgrp_obj1;addrgrp_obj2,tagobj6,Address Group 5
+addrgrp_obj6,static,addrobj9;addrobj5;addrgrp_obj4;addrgrp_obj3,,Address Group 6
