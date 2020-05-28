@@ -113,7 +113,7 @@ addrgrp = csv.DictReader(open(csvfile))
 panos_obj_importer.addrgrpobjects_importer(addrgrp, api_hostname, api_key, api_loc, api_input)
 
 print(''' 
-2nd round importing complete... 
+2nd round of importing is complete... 
 ''')
 
 ##### 4.0 Service Object Importer #####
@@ -136,7 +136,7 @@ print('''
 Importing complete... 
 ''')
 
-##### 5.0 Service Object Importer #####
+##### 5.0 Service Object Group Importer #####
 
 print(''' Palo Alto Service Group Object Importer
 Beginning the import...
@@ -154,4 +154,24 @@ panos_obj_importer.svcgrpobjects_importer(svcgrp, api_hostname, api_key, api_loc
 
 print(''' 
 Importing complete... 
+''')
+
+##### 5.1 Service Object Group Importer Round 2 #####
+
+print(''' Palo Alto Service Group Object Importer
+Beginning the 2nd round import...
+        ''')
+
+## Define CSV File Importing
+csvfile = 'csv_sample/panos_svcgrpobj.csv'
+
+## Open CSV
+svcgrp = csv.DictReader(open(csvfile))
+
+## Tag Object Importer
+
+panos_obj_importer.svcgrpobjects_importer(svcgrp, api_hostname, api_key, api_loc, api_input)
+
+print(''' 
+2nd round of importing is complete... 
 ''')
