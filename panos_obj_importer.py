@@ -144,11 +144,11 @@ def addrgrpobjects_importer(addrgrp, api_hostname, api_key, api_loc, api_input):
     for row in addrgrp:
         api_obj_payload_name = row["Name"]
         api_obj_payload_desc = row["Description"]
-        api_obj_payload_grpfilter = row["Addresses"]
         if 'dynamic' in row["Type"] and ';' in row["Tags"]:
             print(''' 
             Deploying Dynamic Group...
             ''')
+            api_obj_payload_grpfilter = row["Addresses"]
             api_obj_payload_tags = row["Tags"].split(";")
             payload = {
                             "entry": {
@@ -177,7 +177,8 @@ def addrgrpobjects_importer(addrgrp, api_hostname, api_key, api_loc, api_input):
             ''')
 
         ## Create Dynamic Address Group Objects without tags
-        if 'dynamic' in row["Tags"] and '' in row["Tags"]:
+        elif 'dynamic' in row["Type"] and "" in row["Tags"]:
+            api_obj_payload_grpfilter = row["Addresses"]
             payload = {
                     "entry": {
                         "@name": api_obj_payload_name,
@@ -201,12 +202,10 @@ def addrgrpobjects_importer(addrgrp, api_hostname, api_key, api_loc, api_input):
                 ''')
 
         ## Create Static Address Group Objects
-        if 'static' in row["Type"] and ';' in row ["Tags"]:
+        elif 'static' in row["Type"] and ';' in row ["Tags"]:
             print('''
             Deploying Staic Group... 
             ''')
-            api_obj_payload_name = row["Name"]
-            api_obj_payload_desc = row["Description"]
             api_obj_payload_member = row["Addresses"].split(";")
             api_obj_payload_tags = row["Tags"].split(";")
             payload = {
@@ -236,7 +235,8 @@ def addrgrpobjects_importer(addrgrp, api_hostname, api_key, api_loc, api_input):
             ''')
 
         ## Create Static Address Group Objects without tags
-        elif 'static' in row["Tags"] and '' in row ["Tags"]:
+        elif 'static' in row["Type"] and "" in row ["Tags"]:
+            api_obj_payload_member = row["Addresses"].split(";")
             payload = {
                         "entry": {
                             "@name": api_obj_payload_name,
