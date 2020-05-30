@@ -13,12 +13,17 @@ config onto other Palo's that are dissimilar in version
 
 ## Motivation
 
-Because Palo Alto have exceptionally great tools such as Expedition, or even just exporting a config and importing it. Obviously there are limitations in both of these tools which is why I have made this script.
+Palo Alto have exceptionally great tools such as Expedition, or even just simply exporting a config and importing it. However I found them unable to meet my needs due to a variety of reasons and so I realised, I finally needed to pull my finger out and get started on my Python journey.
 
-I created this project because I needed to do some Palo testing and training on a Lab VM and I wanted to replicate my prod environment and I really couldn't be bothered in making the thousands of objects and equaly large number of policies. Also I have used this tool in conjunction with Ansible to allow the config to this LabVM to be constantly up-to-date with CSV files.
+I created this project (and it is my first Python project, I would like to add) because I needed to do some Palo testing and training on a Lab VM and I wanted to replicate another environment. I really could not be bothered in making the thousands of objects and equaly large number of policies. 
 
-To find out more on how I have done this and how Iused this script please feel free to visit my blog - https://www.danielbostock.com
+Currently there are 3 main tools that people can use for handling config files within Palo Alto - Expedition, Panorama & dealing directly with the XML exported configs. Each one has their pros and cons and their distinct purposes. Panorama is actually the tool that solves the problem but this is a paid solution and for the testing environment I was building this was not feasible.
 
+I was therefore left with 2 tools to choose from, so if Panorama is not a limiatation for you, then Panorama I suggest is a much better system to manage this. However for those also without Panorama, the other two tools available were simply lacking - and this is no fault of their own, their purpose is not for what I desire.
+
+I needed automation, and I needed simplicity. Palo Alto have built a very good REST API to deploy changes to. I decided to use this to leverage the configuration I needed to deploy because most things in a PanOS device can actually be exported as a CSV. So I set out to build an import tool with Python.
+
+This script has helped me to deploy over thousands of objects, and policies, in a consistent and accurate manner. First and foremeost is my motivator to make this fit to my business purposes. I will keep working to add more logic and functionality as I learn more Python and discover more necessities in this script as time progresses and my usage equally increases.
 
 ## Screenshots
 
