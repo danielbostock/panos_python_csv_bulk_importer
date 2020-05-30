@@ -37,12 +37,36 @@ Bulk Policy (Security, NAT etc...)creation using CSV
 ## Tests
 Describe and show how to run the tests with code examples.
 
-## How to use?
-If people like your project they’ll want to learn how they can use it. To do so include step by step guide to use your project.
+## How to use and important things to not before use
+
+There are quite a few limitations with this script in its current form. It is very simplistic in nature and is really only built to suit my limited needs. I plan to increase its logic and capacity in future iterations, for now however it is what it is and I will outline how to use it in its current form. However before I explain how to use, I will outline the important things to remember.
+
+Important things to note before use!
+
+    1. panos_python_csv_bulk_importer.py is the parent script which will call on all the functions used for importing.
+    2. The bulk importer script is setup to iterate through all the functions listed and do all those actions, if you want to pick and choose which objects & policies are imported then you need to either delete or comment out them in the panos_python_csv_bulk_importer.py file. You do not need to touch the functions file of course.
+    3. There is pretty much no error handling logic in this script. This will be added in future versions.
+    4. There is very little choice logic built into the script and therefore it is assumed you understand how to read Python and ensure that all the CSV file locations are updated.
+    5. THIS IS A WORK IN PROGRESS!!! By no means complete and by no means capable of handling all unique configurations out there. I plan to improve on this, but for now you will be very limited to the CSV Row Headers used in my samples. You are welcome to fork or talk to me and raise a PR to improve upon this as I am keen to build better configuration capabilities into this script.
+
+How to use
+
+    1. Ensure all CSV's are collected off Palo you want to import from, I suggest exporting a CSV with ALL headers (click more columns bottom left of window that pops up to do the CSV export), then deleting the columns of information not needed.
+    2. Ensure all CSV row headers match what is being called in the API request
+    3. Update locations of csvfile for al the vars in the script - panos_python_csv_bulk_importer.py
+    4. 
+
+
+
+
 
 ## Contribute
 
-Let people know how they can contribute into your project. A [contributing guideline](https://github.com/zulip/zulip-electron/blob/master/CONTRIBUTING.md) will be a big plus.
+If you would like to contribute to this project, please first contact me via the various media platforms I am on so we can discuss it further. I am really keen and hopeful that there are people out there who want to contribute and make this even better so please don't be afraid to contact me!
+
+LinkedIn - https://linkedin.com/in/dbostock
+Twitter - https://twitter.com/DanielBostock
+Email - danielbostock@outlook.com
 
 ## Credits
 Give proper credits. This could be a link to any repo which inspired you to build this project, any blogposts or links to people who contrbuted in this project. 
