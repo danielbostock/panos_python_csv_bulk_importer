@@ -52,4 +52,4 @@ Give proper credits. This could be a link to any repo which inspired you to buil
 ## License
 A short snippet describing the license (MIT, Apache etc)
 
-MIT © [Yourname]()
+MIT © [Daniel Bostock]()
