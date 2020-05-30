@@ -175,3 +175,23 @@ panos_obj_importer.svcgrpobjects_importer(svcgrp, api_hostname, api_key, api_loc
 print(''' 
 2nd round of importing is complete... 
 ''')
+
+##### 6.0 Security Policy Importer #####
+
+print(''' Palo Alto Security Policy Importer
+Beginning the import...
+        ''')
+
+## Define CSV File Importing
+csvfile = 'csv_sample/panos_secpol.csv'
+
+## Open CSV
+secpol = csv.DictReader(open(csvfile))
+
+## Tag Object Importer
+
+panos_obj_importer.svcgrpobjects_importer(secpol, api_hostname, api_key, api_loc, api_input)
+
+print(''' 
+Importing complete... 
+''')
