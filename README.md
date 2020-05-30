@@ -1,4 +1,4 @@
-## Project title
+## PanOS CSV Bulk Importer
 PanOS CSV Bulk Importer
 
 This script is intended to help quickly load configuration
