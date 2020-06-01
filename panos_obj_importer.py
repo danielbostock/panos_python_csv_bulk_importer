@@ -43,7 +43,6 @@ def tagobject_importer(tags, api_hostname, api_key, api_loc, api_input):
     for row in tags:
         api_obj_payload_name = row["Name"]
         api_obj_payload_comm = row["Comments"]
-        print("Tag Name:", api_obj_payload_name, "| Comments:", api_obj_payload_comm)
         payload = {
                     "entry": {
                         "@name": api_obj_payload_name,
