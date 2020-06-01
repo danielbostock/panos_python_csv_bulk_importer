@@ -2,7 +2,7 @@ import csv
 import warnings
 import contextlib
 import json
-import panos_obj_importer
+import panos_obj_importer, panos_pol_importer, panos_net_importer
 import requests
 from urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
@@ -176,6 +176,30 @@ print('''
 2nd round of importing is complete... 
 ''')
 
+#### 6.0 Network Zones Importer ####
+
+print(''' Palo Alto Network Zone Importer
+Beginning the import...
+        ''')
+
+## Define CSV File Importing
+csvfile = 'csv_sample/panos_netzone.csv'
+
+## Open CSV
+netzone = csv.DictReader(open(csvfile))
+
+## Tag Object Importer
+
+panos_pol_importer.secpol_importer(netzone, api_hostname, api_key, api_loc, api_input)
+
+print(''' 
+Importing complete... 
+''')
+
+
+
+
+
 ##### 6.0 Security Policy Importer #####
 
 print(''' Palo Alto Security Policy Importer
@@ -190,7 +214,7 @@ secpol = csv.DictReader(open(csvfile))
 
 ## Tag Object Importer
 
-panos_obj_importer.svcgrpobjects_importer(secpol, api_hostname, api_key, api_loc, api_input)
+panos_pol_importer.secpol_importer(secpol, api_hostname, api_key, api_loc, api_input)
 
 print(''' 
 Importing complete... 
