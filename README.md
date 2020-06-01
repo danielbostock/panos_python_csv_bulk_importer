@@ -27,7 +27,7 @@ This script has helped me to deploy over thousands of objects, and policies, in 
 
 ## Screenshots
 
-Include logo/demo screenshot etc.
+TBD
 
 ## Features
 
@@ -35,7 +35,7 @@ Bulk Object (Addresses, Tags etc...) creation using CSV
 Bulk Policy (Security, NAT etc...)creation using CSV
 
 ## Tests
-Describe and show how to run the tests with code examples.
+TBD
 
 ## How to use and important things to not before use
 
@@ -53,11 +53,10 @@ How to use
 
     1. Ensure all CSV's are collected off Palo you want to import from, I suggest exporting a CSV with ALL headers (click more columns bottom left of window that pops up to do the CSV export), then deleting the columns of information not needed.
     2. Ensure all CSV row headers match what is being called in the API request
-    3. Update locations of csvfile for al the vars in the script - panos_python_csv_bulk_importer.py
-    4. 
-
-
-
+    3. Update locations of csvfile for all the vars in the script - panos_python_csv_bulk_importer.py
+    4. Run script
+        4.1. Enter the full address ie: https://xxx.xxx.xxx.xxx
+        4.2. Enter your API Key
 
 
 ## Contribute
