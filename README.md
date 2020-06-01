@@ -68,7 +68,7 @@ Twitter - https://twitter.com/DanielBostock
 Email - danielbostock@outlook.com
 
 ## Credits
-Give proper credits. This could be a link to any repo which inspired you to build this project, any blogposts or links to people who contrbuted in this project. 
+TBD
 
 #### Anything else that seems useful
 
