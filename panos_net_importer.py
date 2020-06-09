@@ -27,10 +27,10 @@ def panos_device_info ():
 #######################################################################
 
 
-def netzone_importer(tags, api_hostname, api_key, api_loc, api_input):
+def l3if_import(l3if, api_hostname, api_key, api_loc, api_input):
     ## vars used to build the payload ##
     panos_api_objname = '&name='
-    panos_api_objtype = '/https://10.0.13.24/restapi-doc/restapi/v9.1/Network/Zones'
+    panos_api_objtype = '/restapi-doc/restapi/v9.1/EthernetInterfaces?'
     panos_api_hostname = str(api_hostname)
     panos_api_key = str(api_key)
     panos_api_loc = str(api_loc)
@@ -38,14 +38,28 @@ def netzone_importer(tags, api_hostname, api_key, api_loc, api_input):
     ####################################
 
     ## Create Tag objects
-    for row in tags:
-        api_obj_payload_name = row["Name"]
-        api_obj_payload_comm = row["Comments"]
-        print("Tag Name:", api_obj_payload_name, "| Comments:", api_obj_payload_comm)
+    for row in l3if:
+        l3if_name = row["Name"]
+        l3if_comment = row["Comment"]
+        l3if_lnkspd = row["Link-speed"]
+        l3if_lnkdup = row["Link-duplex"]
+
+        l3if_mtu = row["Mtu"]
+        l3if_ip = row["IP Address"]
+        l3if_ipv6 = row["IPv6 Address"]
+        l3if_lldp = row["Features"]
+        l3if_mgtprf = row["Management Profile"]
+        l3if_netprf = row["Features"]
+
         payload = {
                     "entry": {
-                        "@name": api_obj_payload_name,
-                        "comments": api_obj_payload_comm
+                        "@name": l3if_name,
+                        "comments": l3if_comment,
+                        "layer3": {
+                            "ip": l3if_ip,
+                            "interface-management-profile": l3if_mgtprf,
+                            
+                        }
                             }
                     }
 
