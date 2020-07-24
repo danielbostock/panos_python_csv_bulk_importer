@@ -7,16 +7,6 @@ import requests
 from urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
-################# PanOS Objects Bulk Importer ##################
-## This script will POST all the following object groups to the
-## the respective Palo. This script is not designed to deploy
-## interface and network changes but simply for the purpose of
-## getting bulk amount of objects from an exported CSV.
-## 
-## Refer to my website and GIT repo for further documentation
-## and any further discussion on its respective purpose
-
-## GitHub Repo: 
 
 
 
