@@ -15,32 +15,45 @@ PanOS Bulk Importer currently supports the following file types
 1. CSV
 
 Please select a file type that is required: '''))
+        
 
         if selection == 1:
             csv_file = str(input('Enter the full path location to the CSV file to use for importing of objects: '))
-            confirmation = 0
-            if confirmation == 0:
-                print('File selected for importing:' + print(csv_file))
-                confirmation = int(input(''' 
-Confirm this file location is correct.
+
+            if selection == 1:
+                confirmation = 0
+                print(' File selected for importing: ' + csv_file)
+                confirmation = int(input(''' Confirm this file location is correct.
 1. Yes | 2. No : '''))
-                if confirmation <= 0: 
+                if confirmation == 0: 
                     print (sel_err)
                     selection = 0
+                    break
+
                 if confirmation == 1:
                     continue
-                if confirmation == 2:
-                    selection = 0         
 
+                if confirmation == 2:
+                    selection = 0
+                    confirmation = 0
+                    break
+                    return selection, confirmation
+                
+                elif confirmation >= 3:
+                    print (sel_err)
+                    break
+
+
+        elif selection == 1 and confirmation == 1:
             csv.DictReader(open(csv_file))
             return csv_file
             continue
 
-        if selection >= 0:
-            import_selection = 0
+        elif selection <= 0:
+            selection = 0
             print (sel_err)
         
-        if selection <= 2:
+        elif selection >= 2:
             selection = 0
             print (sel_err)
 
