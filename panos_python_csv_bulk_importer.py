@@ -2,7 +2,7 @@ import csv
 import warnings
 import contextlib
 import json
-import panos_obj_importer, panos_pol_importer, panos_net_importer
+import panos_obj_importer, panos_pol_importer, panos_net_importer, import_builder
 import requests
 from urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
@@ -28,10 +28,8 @@ Beginning the import...
         ''')
 
 ## Define CSV File Importing
-csvfile = 'csv_sample/panos_tagobj.csv'
+tags = (import_builder.import_selector())
 
-## Open CSV
-tags = csv.DictReader(open(csvfile))
 
 ## Tag Object Importer
 
