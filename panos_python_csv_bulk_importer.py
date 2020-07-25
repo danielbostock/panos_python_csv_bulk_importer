@@ -25,15 +25,18 @@ api_key = str(api_device_info[1])
 
 print(''' Palo Alto Tag Object Importer
 Beginning the import...
+
         ''')
 
 ## Define CSV File Importing
-tags = (import_builder.import_selector())
+file = import_builder.selector()
+
+
 
 
 ## Tag Object Importer
 
-panos_obj_importer.tagobject_importer(tags, api_hostname, api_key, api_loc, api_input)
+panos_obj_importer.tagobject_importer(file, api_hostname, api_key, api_loc, api_input)
 
 print(''' 
 Importing complete... 
