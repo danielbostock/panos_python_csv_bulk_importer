@@ -22,7 +22,7 @@ Please select a file type that is required: '''))
             confirmation = 0
             selection = 1
             while confirmation == 0 and selection == 1:
-                if confirmation == False: 
+                if confirmation == 0: 
                     print('File selected for importing: ' + file)
                     confirmation = int(input('''Confirm this file location is correct.
 1. Yes | 2. No : '''))
@@ -36,11 +36,7 @@ Please select a file type that is required: '''))
                         print (sel_err)
                         break
 
-                    else:
-                        print (sel_err)
-                        selection = 0
-                        confirmation = 0
-                        break
+            return confirmation, selection
 
         while selection >= 2:
             if selection >= 2:
@@ -53,6 +49,5 @@ Please select a file type that is required: '''))
             break
 
     print (selection)
-    return file, confirmation, selection
 
 
