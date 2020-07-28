@@ -7,55 +7,35 @@ import requests
 from urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
-## Function definitions used by other functions for building API call
-
-def panos_location ():
-    panos_device_location = '&location=vsys&vsys=vsys1'
-    panos_api_location = panos_device_location
-    return panos_api_location
-
-def panos_inputformat ():
-    panos_device_inputformat = '&input-format=json'
-    panos_api_inputformat = panos_device_inputformat
-    return panos_api_inputformat
-
-def panos_device_info ():
-    panos_device_hostname = str(input('Enter the device URL or IP:'))
-    panos_device_key = str("key=" + input('Enter the API key:'))
-    return panos_device_hostname, panos_device_key
-    
-#######################################################################
-
+#Global Vars
 
 ## 1.0 Tag Objects Importer
 
-def tagobject_importer(tags, api_hostname, api_key, api_loc, api_input):
+def tags(file, location, hostname, key):
     ## vars used to build the payload ##
-    panos_api_objname = '&name='
-    panos_api_objtype = '/restapi/9.0/Objects/Tags?'
-    panos_api_hostname = str(api_hostname)
-    panos_api_key = str(api_key)
-    panos_api_loc = str(api_loc)
-    panos_api_input = str(api_input)
+    tags = csv.DictReader(open(file))
+    apiname = '&name='
+    apitype = '/restapi/v9.1/Objects/Tags?'
     ####################################
 
     ## Create Tag objects
     for row in tags:
-        api_obj_payload_name = row["Name"]
-        api_obj_payload_comm = row["Comments"]
+        name = row["Name"]
+        comments = row["Comments"]
         payload = {
                     "entry": {
-                        "@name": api_obj_payload_name,
-                        "comments": api_obj_payload_comm
+                        "@name": name,
+                        "comments": comments
                             }
                     }
 
         ## Build API call URL and make API HTTPS Requests call        
-        url = panos_api_hostname + panos_api_objtype + panos_api_key + panos_api_loc + panos_api_objname + api_obj_payload_name + panos_api_input
-        response = requests.request("POST", url, data = json.dumps(payload), verify = False)
+        url = hostname + apitype + location + apiname + name
+        headers = { 'X-PAN-KEY': str(key)}
+        response = requests.request("POST", url, headers = headers,  data = json.dumps(payload), verify = False)
 
         ## Print feedback of API call for logging and review, disable if you do not wish to see this info or modify to send to a file instead
-        print("Tags: ", api_obj_payload_name, "| Description: ", api_obj_payload_comm)
+        print("Tags: ", name, "| Description: ", comments)
         print("API Call URL: ", url)
         print("API Response Code: ", response.text.encode('utf8'))
         print("JSON Body: ", json.dumps(payload))
@@ -65,39 +45,36 @@ def tagobject_importer(tags, api_hostname, api_key, api_loc, api_input):
 
 ## 2.0 Address Objects Importer
 
-def addrobjects_importer(addr, api_hostname, api_key, api_loc, api_input):
+def addrobj(file, location, hostname, key):
     ## vars used to build the payload ##
-    panos_api_objname = '&name='
-    panos_api_objtype = '/restapi/9.0/Objects/Addresses?'
-    panos_api_hostname = str(api_hostname)
-    panos_api_key = str(api_key)
-    panos_api_loc = str(api_loc)
-    panos_api_input = str(api_input)
+    addr = csv.DictReader(open(file))
+    apiname = '&name='
+    apitype = '/restapi/v9.1/Objects/Addresses?'
     ####################################
 
     ## Create Address Objects with tags
     for row in addr:
-        api_obj_payload_ip = row["Address"]
-        api_obj_payload_name = row["Name"]
-        api_obj_payload_desc = row["Description"]
-        api_obj_payload_tags = row["Tags"].split(";")
+        ip = row["Address"]
+        name = row["Name"]
+        desc = row["Description"]
+        tags = row["Tags"].split(";")
         payload = {
                         "entry": {
-                            "@name": api_obj_payload_name,
-                            "description": api_obj_payload_desc,
-                            "ip-netmask": api_obj_payload_ip,
+                            "@name": name,
+                            "description": desc,
+                            "ip-netmask": ip,
                             "tag": {
-                            "member":  
-                            api_obj_payload_tags
+                            "member": tags
                             }
                         }
                 }
         ## Build API call URL and make API HTTPS Requests call
-        url = panos_api_hostname + panos_api_objtype + panos_api_key + panos_api_loc + panos_api_objname + api_obj_payload_name + panos_api_input
-        response = requests.request("POST", url, data = json.dumps(payload), verify = False)
+        url = hostname + apitype + location + apiname + name
+        headers = { 'X-PAN-KEY': str(key)}
+        response = requests.request("POST", url, headers = headers,  data = json.dumps(payload), verify = False)
 
         ## Print feedback of API call for logging and review, disable if you do not wish to see this info or modify to send to a file instead
-        print("Object Name:",api_obj_payload_name,"| IP: ", api_obj_payload_ip, "| Description: ", api_obj_payload_desc, "| Tags: ", api_obj_payload_tags)
+        print("Object Name:",name,"| IP: ", ip, "| Description: ", desc, "| Tags: ", tags)
         print("API Call URL: ", url)
         print("API Response Code: ", response.text.encode('utf8'))
         print("JSON Body: ", json.dumps(payload))
@@ -109,17 +86,18 @@ def addrobjects_importer(addr, api_hostname, api_key, api_loc, api_input):
         if "" in row["Tags"]:
             payload = {
                     "entry": {
-                        "@name": api_obj_payload_name,
-                        "description": api_obj_payload_desc,
-                        "ip-netmask": api_obj_payload_ip
+                        "@name": name,
+                        "description": desc,
+                        "ip-netmask": ip
                     }
                 }
         ## Build API call URL and make API HTTPS Requests call
-        url = panos_api_hostname + panos_api_objtype + panos_api_key + panos_api_loc + panos_api_objname + api_obj_payload_name + panos_api_input
-        response = requests.request("POST", url, data = json.dumps(payload), verify = False)
+        url = hostname + apitype + location + apiname + name
+        headers = { 'X-PAN-KEY': str(key)}
+        response = requests.request("POST", url, headers = headers,  data = json.dumps(payload), verify = False)
 
         ## Print feedback of API call for logging and review, disable if you do not wish to see this info or modify to send to a file instead
-        print("Object Name:",api_obj_payload_name,"| IP: ", api_obj_payload_ip, "| Description: ", api_obj_payload_desc)
+        print("Object Name:",name,"| IP: ", ip, "| Description: ", desc)
         print("API Call URL: ", url)
         print("API Response Code: ", response.text.encode('utf8'))
         print("JSON Body: ", json.dumps(payload))
@@ -129,47 +107,45 @@ def addrobjects_importer(addr, api_hostname, api_key, api_loc, api_input):
 
 ## 3.0 Address Groups Object Importer
 
-def addrgrpobjects_importer(addrgrp, api_hostname, api_key, api_loc, api_input):
+def addrgrpobj(file, location, hostname, key):
     ## vars used to build the payload ##
-    panos_api_objname = '&name='
-    panos_api_objtype = '/restapi/9.0/Objects/AddressGroups?'
-    panos_api_hostname = str(api_hostname)
-    panos_api_key = str(api_key)
-    panos_api_loc = str(api_loc)
-    panos_api_input = str(api_input)
+    addrgrp = csv.DictReader(open(file))
+    apiname = '&name='
+    apitype = '/restapi/v9.1/Objects/AddressGroups?'
     ####################################
     
     ## Create Dynamic Address Group Objects with tags
   
     for row in addrgrp:
-        api_obj_payload_name = row["Name"]
-        api_obj_payload_desc = row["Description"]
+        name = row["Name"]
+        desc = row["Description"]
         
         if 'dynamic' in row["Type"]:
             print(''' 
             Deploying Dynamic Group...
             ''')
-            api_obj_payload_grpfilter = row["Addresses"]
-            api_obj_payload_tags = row["Tags"].split(";")
+            grpfilter = row["Addresses"]
+            tags = row["Tags"].split(";")
             payload = {
                             "entry": {
-                                "@name": api_obj_payload_name,
-                                "description": api_obj_payload_desc,
+                                "@name": name,
+                                "description": desc,
                                 "dynamic": {
-                                    "filter": api_obj_payload_grpfilter
+                                    "filter": grpfilter
                                     },
                                     "tag": {
-                                        "member": api_obj_payload_tags
+                                        "member": tags
                                 }
                             }
                         }
 
             ## Build API call URL and make API HTTPS Requests call
-            url = panos_api_hostname + panos_api_objtype + panos_api_key + panos_api_loc + panos_api_objname + api_obj_payload_name + panos_api_input
-            response = requests.request("POST", url, data = json.dumps(payload), verify = False)
+            url = hostname + apitype + location + apiname + name
+            headers = { 'X-PAN-KEY': str(key)}
+            response = requests.request("POST", url, headers = headers,  data = json.dumps(payload), verify = False)
 
             ## Print feedback of API call for logging and review, disable if you do not wish to see this info or modify to send to a file instead
-            print("Object Name:",api_obj_payload_name, "| Description: ", api_obj_payload_desc)
+            print("Object Name:",name, "| Description: ", desc)
             print("API Call URL: ", url)
             print("API Response Code: ", response.text.encode('utf8'))
             print("JSON Body: ", json.dumps(payload))
@@ -179,22 +155,23 @@ def addrgrpobjects_importer(addrgrp, api_hostname, api_key, api_loc, api_input):
                 ## Create Dynamic Address Group Objects without tags
 
             if "" in row["Tags"]:
-                api_obj_payload_grpfilter = row["Addresses"]
+                grpfilter = row["Addresses"]
                 payload = {
                         "entry": {
-                            "@name": api_obj_payload_name,
-                            "description": api_obj_payload_desc,
+                            "@name": name,
+                            "description": desc,
                             "dynamic": {
-                                    "filter": api_obj_payload_grpfilter
+                                    "filter": grpfilter
                                     }
                             }
                         }
                 ## Build API call URL and make API HTTPS Requests call
-                url = panos_api_hostname + panos_api_objtype + panos_api_key + panos_api_loc + panos_api_objname + api_obj_payload_name + panos_api_input
-                response = requests.request("POST", url, data = json.dumps(payload), verify = False)
+                url = hostname + apitype + location + apiname + name
+                headers = { 'X-PAN-KEY': str(key)}
+                response = requests.request("POST", url, headers = headers,  data = json.dumps(payload), verify = False)
 
                 ## Print feedback of API call for logging and review, disable if you do not wish to see this info or modify to send to a file instead
-                print("Object Name:",api_obj_payload_name, "| Description: ", api_obj_payload_desc)
+                print("Object Name:",name, "| Description: ", desc)
                 print("API Call URL: ", url)
                 print("API Response Code: ", response.text.encode('utf8'))
                 print("JSON Body: ", json.dumps(payload))
@@ -207,27 +184,28 @@ def addrgrpobjects_importer(addrgrp, api_hostname, api_key, api_loc, api_input):
             print('''
             Deploying Staic Group... 
             ''')
-            api_obj_payload_member = row["Addresses"].split(";")
-            api_obj_payload_tags = row["Tags"].split(";")
+            member = row["Addresses"].split(";")
+            tags = row["Tags"].split(";")
             payload = {
                         "entry": {
-                            "@name": api_obj_payload_name,
-                            "description": api_obj_payload_desc,
+                            "@name": name,
+                            "description": desc,
                             "static": {
-                                "member": api_obj_payload_member
+                                "member": member
                                     },
                                 "tag": {
-                                    "member": api_obj_payload_tags
+                                    "member": tags
                                 }
                             }
                         }
             
-            ## Build API call URL and make API HTTPS Requests call
-            url = panos_api_hostname + panos_api_objtype + panos_api_key + panos_api_loc + panos_api_objname + api_obj_payload_name + panos_api_input
-            response = requests.request("POST", url, data = json.dumps(payload), verify = False)
+        ## Build API call URL and make API HTTPS Requests call
+            url = hostname + apitype + location + apiname + name
+            headers = { 'X-PAN-KEY': str(key)}
+            response = requests.request("POST", url, headers = headers,  data = json.dumps(payload), verify = False)
 
             ## Print feedback of API call for logging and review, disable if you do not wish to see this info or modify to send to a file instead
-            print("Object Name:",api_obj_payload_name, "| Description: ", api_obj_payload_desc)
+            print("Object Name:",name, "| Description: ", desc)
             print("API Call URL: ", url)
             print("API Response Code: ", response.text.encode('utf8'))
             print("JSON Body: ", json.dumps(payload))
@@ -237,22 +215,23 @@ def addrgrpobjects_importer(addrgrp, api_hostname, api_key, api_loc, api_input):
 
             ## Create Static Address Group Objects without tags
             if "" in row ["Tags"]:
-                api_obj_payload_member = row["Addresses"].split(";")
+                member = row["Addresses"].split(";")
                 payload = {
                             "entry": {
-                                "@name": api_obj_payload_name,
-                                "description": api_obj_payload_desc,
+                                "@name": name,
+                                "description": desc,
                                 "static": {
-                                    "member": api_obj_payload_member
+                                    "member": member
                                     }
                             }
                         }
                 ## Build API call URL and make API HTTPS Requests call
-                url = panos_api_hostname + panos_api_objtype + panos_api_key + panos_api_loc + panos_api_objname + api_obj_payload_name + panos_api_input
-                response = requests.request("POST", url, data = json.dumps(payload), verify = False)
+                url = hostname + apitype + location + apiname + name
+                headers = { 'X-PAN-KEY': str(key)}
+                response = requests.request("POST", url, headers = headers,  data = json.dumps(payload), verify = False)
 
                 ## Print feedback of API call for logging and review, disable if you do not wish to see this info or modify to send to a file instead
-                print("Object Name:",api_obj_payload_name, "| Description: ", api_obj_payload_desc)
+                print("Object Name:",name, "| Description: ", desc)
                 print("API Call URL: ", url)
                 print("API Response Code: ", response.text.encode('utf8'))
                 print("JSON Body: ", json.dumps(payload))
@@ -263,48 +242,46 @@ def addrgrpobjects_importer(addrgrp, api_hostname, api_key, api_loc, api_input):
 
 ## 4.0 Service Object Importer
 
-def svcobjects_importer(svc, api_hostname, api_key, api_loc, api_input):
+def svcobj(file, location, hostname, key):
     ## vars used to build the payload ##
-    panos_api_objname = '&name='
-    panos_api_objtype = '/restapi/9.0/Objects/Services?'
-    panos_api_hostname = str(api_hostname)
-    panos_api_key = str(api_key)
-    panos_api_loc = str(api_loc)
-    panos_api_input = str(api_input)
+    svcobj = csv.DictReader(open(file))
+    apiname = '&name='
+    apitype = '/restapi/v9.1/Objects/AddressGroups?'
     ####################################
 
-    for row in svc:
-        api_obj_payload_name = row["Name"]
-        api_obj_payload_proto = row["Protocol"]
-        api_obj_payload_desc = row["Description"]
-        api_obj_payload_dstprt = row["Destination Port"]
-        api_obj_payload_tags = row["Tags"].split(';')
+    for row in svcobj:
+        name = row["Name"]
+        proto = row["Protocol"]
+        desc = row["Description"]
+        dstprt = row["Destination Port"]
+        tags = row["Tags"].split(';')
         ## Create TCP Service Objects with tags
         if 'TCP' in row["Protocol"]:
             payload = {
                 "entry": {
-                    "@name": api_obj_payload_name,
-                    "description": api_obj_payload_desc,
+                    "@name": name,
+                    "description": desc,
                     "protocol": {
                         "tcp": {
-                            "port": api_obj_payload_dstprt,
+                            "port": dstprt,
                             "override": {
                                 "no": { }
                                 }
                             }
                         },    
                     "tag": {
-                        "member": api_obj_payload_tags
+                        "member": tags
                             }
                         }
                     }
 
             ## Build API call URL and make API HTTPS Requests call
-            url = panos_api_hostname + panos_api_objtype + panos_api_key + panos_api_loc + panos_api_objname + api_obj_payload_name + panos_api_input
-            response = requests.request("POST", url, data = json.dumps(payload), verify = False)
+            url = hostname + apitype + location + apiname + name
+            headers = { 'X-PAN-KEY': str(key)}
+            response = requests.request("POST", url, headers = headers,  data = json.dumps(payload), verify = False)
 
             ## Print feedback of API call for logging and review, disable if you do not wish to see this info or modify to send to a file instead
-            print("Service Name:", api_obj_payload_name,"| DST Port: ", api_obj_payload_dstprt, "| Protocol: ", api_obj_payload_proto, "| Description: ", api_obj_payload_desc)
+            print("Service Name:", name,"| DST Port: ", dstprt, "| Protocol: ", proto, "| Description: ", desc)
             print("API Call URL: ", url)
             print("API Response Code: ", response.text.encode('utf8'))
             print("JSON Body: ", json.dumps(payload))
@@ -316,11 +293,11 @@ def svcobjects_importer(svc, api_hostname, api_key, api_loc, api_input):
             if "" in row["Tags"]:
                 payload = {
                     "entry": {
-                        "@name": api_obj_payload_name,
-                            "description": api_obj_payload_desc,
+                        "@name": name,
+                            "description": desc,
                             "protocol": {
                                 "tcp": {
-                                    "port": api_obj_payload_dstprt,
+                                    "port": dstprt,
                                     "override": {
                                         "no": { },
                                         }
@@ -330,11 +307,12 @@ def svcobjects_importer(svc, api_hostname, api_key, api_loc, api_input):
                         }
 
                 ## Build API call URL and make API HTTPS Requests call
-                url = panos_api_hostname + panos_api_objtype + panos_api_key + panos_api_loc + panos_api_objname + api_obj_payload_name + panos_api_input
-                response = requests.request("POST", url, data = json.dumps(payload), verify = False)
+                url = hostname + apitype + location + apiname + name
+                headers = { 'X-PAN-KEY': str(key)}
+                response = requests.request("POST", url, headers = headers,  data = json.dumps(payload), verify = False)
 
                 ## Print feedback of API call for logging and review, disable if you do not wish to see this info or modify to send to a file instead
-                print("Service Name:", api_obj_payload_name,"| DST Port: ", api_obj_payload_dstprt, "| Protocol: ", api_obj_payload_proto, "| Description: ", api_obj_payload_desc)
+                print("Service Name:", name,"| DST Port: ", dstprt, "| Protocol: ", proto, "| Description: ", desc)
                 print("API Call URL: ", url)
                 print("API Response Code: ", response.text.encode('utf8'))
                 print("JSON Body: ", json.dumps(payload))
@@ -346,28 +324,29 @@ def svcobjects_importer(svc, api_hostname, api_key, api_loc, api_input):
         if 'UDP' in row["Protocol"]:
             payload = {
                 "entry": {
-                    "@name": api_obj_payload_name,
-                    "description": api_obj_payload_desc,
+                    "@name": name,
+                    "description": _desc,
                     "protocol": {
                         "udp": {
-                            "port": api_obj_payload_dstprt,
+                            "port": dstprt,
                             "override": {
                                 "no": { }
                                 }
                             }
                         },    
                     "tag": {
-                        "member": api_obj_payload_tags
+                        "member": tags
                             }
                         }
                     }
 
             ## Build API call URL and make API HTTPS Requests call
-            url = panos_api_hostname + panos_api_objtype + panos_api_key + panos_api_loc + panos_api_objname + api_obj_payload_name + panos_api_input
-            response = requests.request("POST", url, data = json.dumps(payload), verify = False)
+            url = hostname + apitype + location + apiname + name
+            headers = { 'X-PAN-KEY': str(key)}
+            response = requests.request("POST", url, headers = headers,  data = json.dumps(payload), verify = False)
 
             ## Print feedback of API call for logging and review, disable if you do not wish to see this info or modify to send to a file instead
-            print("Service Name:", api_obj_payload_name,"| DST Port: ", api_obj_payload_dstprt, "| Protocol: ", api_obj_payload_proto, "| Description: ", api_obj_payload_desc)
+            print("Service Name:", name,"| DST Port: ", dstprt, "| Protocol: ", proto, "| Description: ", desc)
             print("API Call URL: ", url)
             print("API Response Code: ", response.text.encode('utf8'))
             print("JSON Body: ", json.dumps(payload))
@@ -379,11 +358,11 @@ def svcobjects_importer(svc, api_hostname, api_key, api_loc, api_input):
             if "" in row["Tags"]:
                 payload = {
                             "entry": {
-                                "@name": api_obj_payload_name,
-                                "description": api_obj_payload_desc,
+                                "@name": name,
+                                "description": desc,
                                 "protocol": {
                                     "udp": {
-                                        "port": api_obj_payload_dstprt,
+                                        "port": dstprt,
                                         "override": {
                                             "no": { },
                                         }
@@ -393,11 +372,12 @@ def svcobjects_importer(svc, api_hostname, api_key, api_loc, api_input):
                         }
 
                 ## Build API call URL and make API HTTPS Requests call
-                url = panos_api_hostname + panos_api_objtype + panos_api_key + panos_api_loc + panos_api_objname + api_obj_payload_name + panos_api_input
-                response = requests.request("POST", url, data = json.dumps(payload), verify = False)
+                url = hostname + apitype + location + apiname + name
+                headers = { 'X-PAN-KEY': str(key)}
+                response = requests.request("POST", url, headers = headers,  data = json.dumps(payload), verify = False)
 
                 ## Print feedback of API call for logging and review, disable if you do not wish to see this info or modify to send to a file instead
-                print("Service Name:", api_obj_payload_name,"| DST Port: ", api_obj_payload_dstprt, "| Protocol: ", api_obj_payload_proto, "| Description: ", api_obj_payload_desc)
+                print("Service Name:", name,"| DST Port: ", dstprt, "| Protocol: ", proto, "| Description: ", desc)
                 print("API Call URL: ", url)
                 print("API Response Code: ", response.text.encode('utf8'))
                 print("JSON Body: ", json.dumps(payload))
@@ -407,39 +387,35 @@ def svcobjects_importer(svc, api_hostname, api_key, api_loc, api_input):
 
 ## 5.0 Service Groups Object Importer
 
-def svcgrpobjects_importer(svcgrp, api_hostname, api_key, api_loc, api_input):
+def svcgrpobj(file, location, hostname, key):
     ## vars used to build the payload ##
-    panos_api_objname = '&name='
-    panos_api_objtype = '/restapi/9.0/Objects/ServiceGroups?'
-    panos_api_hostname = str(api_hostname)
-    panos_api_key = str(api_key)
-    panos_api_loc = str(api_loc)
-    panos_api_input = str(api_input)
+    apiname = '&name='
+    apitype = '/restapi/9.1/Objects/ServiceGroups?'
     ####################################
 
     ## Create Service Group Objects with tags
     for row in svcgrp:
-        api_obj_payload_name = row["Name"]
-        api_obj_payload_svc = row["Services"].split(";")
-        api_obj_payload_tags = row["Tags"].split(";")
+        name = row["Name"]
+        svc = row["Services"].split(";")
+        tags = row["Tags"].split(";")
         payload = {
                     "entry": {
-                        "@name": api_obj_payload_name,
+                        "@name": name,
                         "members": {
-                            "member": api_obj_payload_svc
+                            "member": svc
                             },
                         "tag": {
-                            "member":  
-                            api_obj_payload_tags
+                            "member": tags
                             }
                         }
                     }
         ## Build API call URL and make API HTTPS Requests call
-        url = panos_api_hostname + panos_api_objtype + panos_api_key + panos_api_loc + panos_api_objname + api_obj_payload_name + panos_api_input
-        response = requests.request("POST", url, data = json.dumps(payload), verify = False)
+        url = hostname + apitype + location + apiname + name
+        headers = { 'X-PAN-KEY': str(key)}
+        response = requests.request("POST", url, headers = headers,  data = json.dumps(payload), verify = False)
 
         ## Print feedback of API call for logging and review, disable if you do not wish to see this info or modify to send to a file instead
-        print("SVC Group Name:", api_obj_payload_name, "| Services: ", api_obj_payload_svc)
+        print("SVC Group Name:", name, "| Services: ", svc)
         print("API Call URL: ", url)
         print("API Response Code: ", response.text.encode('utf8'))
         print("JSON Body: ", json.dumps(payload))
@@ -450,19 +426,19 @@ def svcgrpobjects_importer(svcgrp, api_hostname, api_key, api_loc, api_input):
         if "" in row["Tags"]:
             payload = {
                         "entry": {
-                            "@name": api_obj_payload_name,
+                            "@name": name,
                             "members": {
-                                "member": api_obj_payload_svc
+                                "member": svc
                                 }
                             }
                         }
 
             ## Build API call URL and make API HTTPS Requests call
-            url = panos_api_hostname + panos_api_objtype + panos_api_key + panos_api_loc + panos_api_objname + api_obj_payload_name + panos_api_input
-            response = requests.request("POST", url, data = json.dumps(payload), verify = False)
-
+            url = hostname + apitype + location + apiname + name
+            headers = { 'X-PAN-KEY': str(key)}
+            response = requests.request("POST", url, headers = headers,  data = json.dumps(payload), verify = False)
             ## Print feedback of API call for logging and review, disable if you do not wish to see this info or modify to send to a file instead
-            print("SVC Group Name:", api_obj_payload_name, "| Services: ", api_obj_payload_svc)
+            print("SVC Group Name:", name, "| Services: ", svc)
             print("API Call URL: ", url)
             print("API Response Code: ", response.text.encode('utf8'))
             print("JSON Body: ", json.dumps(payload))

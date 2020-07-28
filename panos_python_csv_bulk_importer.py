@@ -10,33 +10,28 @@ requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 
 
-## Location & Input - Default is vsys1 and JSON input
-api_loc = str(panos_obj_importer.panos_location())
-api_input = str(panos_obj_importer.panos_inputformat())
+# Gather Device Info
 
+location = import_builder.location()
+hostname = import_builder.hostname()
+key = import_builder.key()
 
-## Gather Hostname & API Key
-api_device_info = (panos_obj_importer.panos_device_info())
-api_hostname= str(api_device_info[0])
-api_key = str(api_device_info[1])
+# Define CSV File Importing
+file = import_builder.selector()
+
 
 ######## 1.0 Tag Objects Importer ########
 ## update CSV 
 
-print(''' Palo Alto Tag Object Importer
+print('''Palo Alto Tag Object Importer
+
 Beginning the import...
 
         ''')
 
-## Define CSV File Importing
-file = import_builder.selector()
-
-
-
-
 ## Tag Object Importer
 
-panos_obj_importer.tagobject_importer(file, api_hostname, api_key, api_loc, api_input)
+panos_obj_importer.tags(file, location, hostname, key)
 
 print(''' 
 Importing complete... 
@@ -47,41 +42,34 @@ Importing complete...
 
 ######## 2.0 Address Object Importer #######
 
-print(''' Palo Alto Address Object Importer
+print('''Palo Alto Address Object Importer
+
 Beginning the import...
         ''')
 
-## Define CSV File Importing
-csvfile = 'csv_sample/panos_addrobj.csv'
-
 ## Open CSV
-addr = csv.DictReader(open(csvfile))
+file = import_builder.selector()
 
 ## Tag Object Importer
 
-panos_obj_importer.addrobjects_importer(addr, api_hostname, api_key, api_loc, api_input)
+panos_obj_importer.addrobj(file, location, hostname, key)
 
 print(''' 
 Importing complete... 
 ''')
 
-
-
 ######## 3.0 Address Groups Object Importer ######
 
-print(''' Palo Alto Address Group Object Importer
+print('''Palo Alto Address Group Object Importer
 Beginning the import...
         ''')
 
-## Define CSV File Importing
-csvfile = 'csv_sample/panos_addrgrpobj.csv'
-
 ## Open CSV
-addrgrp = csv.DictReader(open(csvfile))
+file = import_builder.selector()
 
 ## Tag Object Importer
 
-panos_obj_importer.addrgrpobjects_importer(addrgrp, api_hostname, api_key, api_loc, api_input)
+panos_obj_importer.addrgrpobj(file, location, hostname, key)
 
 print(''' 
 Importing complete... 
@@ -93,15 +81,13 @@ print(''' Palo Alto Address Group Object Importer
 Beginning the 2nd round import...
         ''')
 
-## Define CSV File Importing
-csvfile = 'csv_sample/panos_addrgrpobj.csv'
 
 ## Open CSV
-addrgrp = csv.DictReader(open(csvfile))
+file = import_builder.selector()
 
 ## Tag Object Importer
 
-panos_obj_importer.addrgrpobjects_importer(addrgrp, api_hostname, api_key, api_loc, api_input)
+panos_obj_importer.addrgrpobj(file, location, hostname, key)
 
 print(''' 
 2nd round of importing is complete... 
@@ -113,15 +99,12 @@ print(''' Palo Alto Service Object Importer
 Beginning the import...
         ''')
 
-## Define CSV File Importing
-csvfile = 'csv_sample/panos_svcobj.csv'
-
 ## Open CSV
-svc = csv.DictReader(open(csvfile))
+file = import_builder.selector()
 
 ## Tag Object Importer
 
-panos_obj_importer.svcobjects_importer(svc, api_hostname, api_key, api_loc, api_input)
+panos_obj_importer.svcobj(file, location, hostname, key)
 
 print(''' 
 Importing complete... 
@@ -133,15 +116,12 @@ print(''' Palo Alto Service Group Object Importer
 Beginning the import...
         ''')
 
-## Define CSV File Importing
-csvfile = 'csv_sample/panos_svcgrpobj.csv'
-
 ## Open CSV
-svcgrp = csv.DictReader(open(csvfile))
+file = import_builder.selector()
 
 ## Tag Object Importer
 
-panos_obj_importer.svcgrpobjects_importer(svcgrp, api_hostname, api_key, api_loc, api_input)
+panos_obj_importer.svcgrpobj(file, location, hostname, key)
 
 print(''' 
 Importing complete... 
@@ -153,15 +133,12 @@ print(''' Palo Alto Service Group Object Importer
 Beginning the 2nd round import...
         ''')
 
-## Define CSV File Importing
-csvfile = 'csv_sample/panos_svcgrpobj.csv'
-
 ## Open CSV
-svcgrp = csv.DictReader(open(csvfile))
+file = import_builder.selector()
 
 ## Tag Object Importer
 
-panos_obj_importer.svcgrpobjects_importer(svcgrp, api_hostname, api_key, api_loc, api_input)
+panos_obj_importer.svcgrpobj(file, location, hostname, key)
 
 print(''' 
 2nd round of importing is complete... 
