@@ -50,9 +50,6 @@ Please select a file type that is required: '''))
 
     print (selection)
 
-
-import csv
-
 # Error Messages
 sel_err = 'Selection Error: Please select a supported choice by chosing its respective number.'
 gen_err = 'You have either entered an incorrect expected output or something else has broken, please restart the script.'
