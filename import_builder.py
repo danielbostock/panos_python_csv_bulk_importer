@@ -1,8 +1,9 @@
 import csv
 
+
 # Error Messages
 sel_err = 'Selection Error: Please select a supported choice by chosing its respective number.'
-
+gen_err = 'You have either entered an incorrect expected output or something else has broken, please restart the script.'
 
 # This will gather from the end user what supported file type that they will be using for importing
 def selector ():
@@ -49,10 +50,6 @@ Please select a file type that is required: '''))
             break
 
     print (selection)
-
-# Error Messages
-sel_err = 'Selection Error: Please select a supported choice by chosing its respective number.'
-gen_err = 'You have either entered an incorrect expected output or something else has broken, please restart the script.'
 
 
 # Device info gatherer
